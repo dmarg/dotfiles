@@ -84,7 +84,8 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-eval "$(oh-my-posh init zsh --config ~/zashmarg.omp.json)"
+# load oh-my-post and zashmarg theme
+eval "$(oh-my-posh init zsh --config ~/.zashmarg.omp.json)"
 
 # User configuration
 
