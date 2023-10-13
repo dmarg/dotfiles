@@ -1,0 +1,135 @@
+# function admin() {
+# 	curl 'https://mybusiness.mosyle.com/Controller/selfservice.php' \
+# 	-X POST \
+# 	-H 'Host: mybusiness.mosyle.com' \
+# 	-H 'Accept: application/json, text/javascript, */*; q=0.01' \
+# 	-H 'X-Requested-With: XMLHttpRequest' \
+# 	-H 'Accept-Language: en-US,en;q=0.9' \
+# 	-H 'Origin: https://mybusiness.mosyle.com' \
+# 	-H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)' \
+# 	-H 'Connection: keep-alive' \
+# 	-H 'Referer: https://mybusiness.mosyle.com/?account=indigov&application=1' \
+# 	-H 'Content-Length: 213' \
+# 	-H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
+# 	--cookie 'PHPSESSID=[ENTER VALUE]' \
+# 	--data-raw 'usertab_current_os=ios&usertab_current_idcompany=indigov&operation=validate_ondemand_request&UDID=UUID_HERE&deviceudid=[devide id here]&ProfileID=[profile id]&idcompany=indigov'
+# }
+
+# Simple calculator
+function calc() {
+	local result=""
+	result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
+	#                       └─ default (when `--mathlib` is used) is 20
+	#
+	if [[ "$result" == *.* ]]; then
+		# improve the output for decimal numbers
+		printf "$result" |
+		sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
+		    -e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
+		    -e 's/0*$//;s/\.$//'   # remove trailing zeros
+	else
+		printf "$result"
+	fi
+	printf "\n"
+}
+
+# Create a new directory and enter it
+function mkd() {
+	mkdir -p "$@" && cd "$@"
+}
+
+# Change working directory to the top-most Finder window location
+function cdf() { # short for `cdfinder`
+	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
+}
+
+
+# Determine size of a file or total size of a directory
+function fs() {
+	if du -b /dev/null > /dev/null 2>&1; then
+		local arg=-sbh
+	else
+		local arg=-sh
+	fi
+	if [[ -n "$@" ]]; then
+		du $arg -- "$@"
+	else
+		du $arg .[^.]* *
+	fi
+}
+
+# Decode \x{ABCD}-style Unicode escape sequences
+function unidecode() {
+	perl -e "binmode(STDOUT, ':utf8'); print \"$@\""
+	# print a newline unless we’re piping the output to another program
+	if [ -t 1 ]; then
+		echo # newline
+	fi
+}
+
+# Get a character’s Unicode code point
+function codepoint() {
+	perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
+	# print a newline unless we’re piping the output to another program
+	if [ -t 1 ]; then
+		echo # newline
+	fi
+}
+
+# `m` with no arguments opens the current directory in TextMate, otherwise
+# opens the given location
+function m() {
+	if [ $# -eq 0 ]; then
+		mate .
+	else
+		mate "$@"
+	fi
+}
+
+# `s` with no arguments opens the current directory in Sublime Text, otherwise
+# opens the given location
+function s() {
+	if [ $# -eq 0 ]; then
+		subl .
+	else
+		subl "$@"
+	fi
+}
+
+# `s` with no arguments opens the current directory in Sublime Text, otherwise
+# opens the given location
+function cde() {
+	if [ $# -eq 0 ]; then
+		code .
+	else
+		code "$@"
+	fi
+}
+
+# `v` with no arguments opens the current directory in Vim, otherwise opens the
+# given location
+function v() {
+	if [ $# -eq 0 ]; then
+		vim .
+	else
+		vim "$@"
+	fi
+}
+
+# `o` with no arguments opens current directory, otherwise opens the given
+# location
+function o() {
+	if [ $# -eq 0 ]; then
+		open .
+	else
+		open "$@"
+	fi
+}
+
+# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
+# the `.git` directory, listing directories first. The output gets piped into
+# `less` with options to preserve color and line numbers, unless the output is
+# small enough for one screen.
+function tre() {
+	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
+}
