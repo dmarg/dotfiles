@@ -1,7 +1,7 @@
 {
   "custom_presets": {
     "MY_XKCD_GEN": {
-      "description": "A preset that mimicks the famous cartoon exactly",
+      "description": "A preset that mimicks the famous cartoon exactly with modifications",
       "config": {
         "num_words": 4,
         "word_length_min": 4,
