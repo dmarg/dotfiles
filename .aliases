@@ -3,6 +3,9 @@ alias xkpasswd="hsxkpasswd -p MY_XKCD_GEN | pbcopy"
 alias gpassword="xkpasswd"
 alias gpasswd="xkpasswd"
 
+# additional brew alias
+alias bubc='brew upgrade && brew cleanup'
+
 # Easier navigation: .., ..., ...., ....., ~ and -
 # alias ..="cd .."
 # alias ...="cd ../.."
@@ -31,6 +34,9 @@ fi
 
 # Pip
 alias pip=pip3
+
+# Python
+alias python=python3
 
 # List all files colorized in long format
 alias l="ls -lF ${colorflag}"
