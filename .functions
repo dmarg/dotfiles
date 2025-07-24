@@ -107,9 +107,17 @@ function s() {
 	fi
 }
 
-# `s` with no arguments opens the current directory in VS Code, otherwise
+# `vsc` or `cde` with no arguments opens the current directory in VS Code, otherwise
 # opens the given location
 function vsc() {
+	if [ $# -eq 0 ]; then
+		code .
+	else
+		code "$@"
+	fi
+}
+
+function cde() {
 	if [ $# -eq 0 ]; then
 		code .
 	else
