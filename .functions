@@ -1,20 +1,3 @@
-# function admin() {
-# 	curl 'https://mybusiness.mosyle.com/Controller/selfservice.php' \
-# 	-X POST \
-# 	-H 'Host: mybusiness.mosyle.com' \
-# 	-H 'Accept: application/json, text/javascript, */*; q=0.01' \
-# 	-H 'X-Requested-With: XMLHttpRequest' \
-# 	-H 'Accept-Language: en-US,en;q=0.9' \
-# 	-H 'Origin: https://mybusiness.mosyle.com' \
-# 	-H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)' \
-# 	-H 'Connection: keep-alive' \
-# 	-H 'Referer: https://mybusiness.mosyle.com/?account=indigov&application=1' \
-# 	-H 'Content-Length: 213' \
-# 	-H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
-# 	--cookie 'PHPSESSID=e87e868d3330d0e7327ac16d455f85f3' \
-# 	--data-raw 'usertab_current_os=ios&usertab_current_idcompany=indigov&operation=validate_ondemand_request&UDID=UUID_HERE&deviceudid=151B57DA-98AC-5A99-B112-C07AB7262D94&ProfileID=10&idcompany=indigov'
-# }
-
 # Caffeinate command for macOS to prevent the system from sleeping for a specified number of hours
 caffeinate_for() {
   if [ -z "$1" ]; then
