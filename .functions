@@ -11,9 +11,37 @@
 # 	-H 'Referer: https://mybusiness.mosyle.com/?account=indigov&application=1' \
 # 	-H 'Content-Length: 213' \
 # 	-H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
-# 	--cookie 'PHPSESSID=[ENTER VALUE]' \
-# 	--data-raw 'usertab_current_os=ios&usertab_current_idcompany=indigov&operation=validate_ondemand_request&UDID=UUID_HERE&deviceudid=[devide id here]&ProfileID=[profile id]&idcompany=indigov'
+# 	--cookie 'PHPSESSID=e87e868d3330d0e7327ac16d455f85f3' \
+# 	--data-raw 'usertab_current_os=ios&usertab_current_idcompany=indigov&operation=validate_ondemand_request&UDID=UUID_HERE&deviceudid=151B57DA-98AC-5A99-B112-C07AB7262D94&ProfileID=10&idcompany=indigov'
 # }
+
+# Caffeinate command for macOS to prevent the system from sleeping for a specified number of hours
+caffeinate_for() {
+  if [ -z "$1" ]; then
+    echo "Please specify the number of hours."
+  else
+    local hours=$1
+    local seconds=$((hours * 3600))
+    local end_time=$(date -v+${hours}H +"%Y-%m-%d %I:%M %p") 
+    caffeinate -i -t $seconds &
+    echo "Caffeinating for $hours hours. Caffeinate will end at $end_time."
+  fi
+}
+
+# Caffeinate command for macOS to prevent the system from sleeping until 6:00 PM
+caffeinate_until_6pm() {
+  local current_time=$(date +%s)
+  local end_time=$(date -v18H -v0M -v0S +%s)
+
+  if [ $current_time -gt $end_time ]; then
+    end_time=$(date -v+1d -v18H -v0M -v0S +%s)
+  fi
+
+  local seconds=$((end_time - current_time))
+  caffeinate -i -t $seconds &
+  echo "Caffeinating... Caffeinate will end at $(date -r $end_time +"%Y-%m-%d %I:%M:%S %p")."
+}
+
 
 # Simple calculator
 function calc() {
@@ -96,9 +124,9 @@ function s() {
 	fi
 }
 
-# `s` with no arguments opens the current directory in Sublime Text, otherwise
+# `s` with no arguments opens the current directory in VS Code, otherwise
 # opens the given location
-function cde() {
+function vsc() {
 	if [ $# -eq 0 ]; then
 		code .
 	else
